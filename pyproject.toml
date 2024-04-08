@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "run-on-server"
+version = "0.1.0"
+description = ""
+authors = ["Ziqin Gong <gongzq0301@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
