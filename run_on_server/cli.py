@@ -80,7 +80,7 @@ def main(
       pwd=pwd,
       envvars=envvars,
   )
-  click.echo(output)
+  click.echo(f"Script output:\n{output}")
 
   if sync:
     assert re_pattern is not None and target is not None
