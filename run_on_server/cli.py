@@ -8,7 +8,8 @@ from run_on_server.sync import rsync
 from run_on_server.utils import extract_path
 
 
-@click.command("run-on-server")
+@click.command(
+    "run-on-server", context_settings={"help_option_names": ["-h", "--help"]})
 @click.argument("server", type=click.STRING)
 @click.argument("script", type=click.STRING)
 @click.argument("args", nargs=-1, type=click.STRING)
@@ -17,23 +18,26 @@ from run_on_server.utils import extract_path
     type=click.STRING,
     required=True,
     envvar="SSH_CONDA_PREFIX",
-    help="conda prefix on the server")
+    help="Conda prefix on the server. Can also be passed by SSH_CONDA_PREFIX.")
 @click.option(
-    "--pre-comm", help="command to be executed before running the script")
+    "-c",
+    "--pre-comm",
+    help="Command to be executed before running the script.")
 @click.option(
+    "-s",
     "--sync",
     is_flag=True,
-    help="whether to transfer saved data from the server")
+    help="Whether to transfer saved data from the server.")
 @click.option(
     "-p",
     "--re-pattern",
     type=click.STRING,
-    help="regex pattern to extract the path to be transferred from server")
+    help="Regex pattern to extract the path to be transferred from server.")
 @click.option(
     "-t",
     "--target",
     type=click.Path(resolve_path=True),
-    help="local path to save the transferred data")
+    help="Local location to save the transferred data.")
 def main(
     server: str,
     script: str,
@@ -44,6 +48,7 @@ def main(
     re_pattern: str | None,
     target: Path | None,
 ) -> None:
+  """Run SCRIPT with arguments ARGS on the SSH server named SERVER."""
   if sync and (re_pattern is None or target is None):
     click.echo("--re-pattern and --target must be specified with --sync on!")
     exit(1)
