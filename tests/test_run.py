@@ -19,6 +19,6 @@ def test_exec_script(example_client: ssh.SSHClient) -> None:
       conda_prefix="/home/zqgong/miniforge3",
       py_file="/home/zqgong/test-script.py",
       args=["1"],
-  )
+      pwd="/home/zqgong/miniforge3")
 
-  assert output.strip() == "Slept for 1 seconds."
+  assert output.strip() == "Slept for 1 seconds in /home/zqgong/miniforge3."

@@ -20,6 +20,18 @@ from run_on_server.utils import extract_path
     envvar="SSH_CONDA_PREFIX",
     help="Conda prefix on the server. Can also be passed by SSH_CONDA_PREFIX.")
 @click.option(
+    "--pwd",
+    type=click.STRING,
+    envvar="SSH_PWD",
+    help="PWD for running the script (and pre-command). "
+    "Can be passed by SSH_PWD.")
+@click.option(
+    "--envvars",
+    type=click.STRING,
+    envvar="SSH_ENV_VARS",
+    help="[key=val,...] Environment variables when running the script. "
+    "Can be passed by SSH_ENV_VARS.")
+@click.option(
     "-c",
     "--pre-comm",
     help="Command to be executed before running the script.")
@@ -43,6 +55,8 @@ def main(
     script: str,
     args: tuple[str, ...],
     conda_prefix: str,
+    pwd: str | None,
+    envvars: str | None,
     pre_comm: str | None,
     sync: bool,
     re_pattern: str | None,
@@ -56,13 +70,15 @@ def main(
   client = init_client(server)
 
   if pre_comm is not None:
-    click.echo(exec_comm(client=client, comm=pre_comm))
+    click.echo(exec_comm(client=client, comm=pre_comm, pwd=pwd))
 
   output = exec_script(
       client=client,
       conda_prefix=conda_prefix,
       py_file=script,
       args=list(args),
+      pwd=pwd,
+      envvars=envvars,
   )
   click.echo(output)
 
