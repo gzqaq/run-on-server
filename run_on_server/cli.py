@@ -86,7 +86,7 @@ def main(
   if sync:
     assert re_pattern is not None and target is not None
 
-    data_pth = extract_path(output, re_pattern)
+    data_pth = Path(extract_path(output, re_pattern))
 
     assert rsync(server_name=server, src=data_pth, tgt=target)
 

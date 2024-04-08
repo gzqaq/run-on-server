@@ -3,7 +3,7 @@ from pathlib import Path
 import subprocess as sp
 
 
-def rsync(server_name: str, src: str, tgt: str | Path) -> bool:
+def rsync(server_name: str, src: str | Path, tgt: str | Path) -> bool:
   subp = sp.Popen(
       args=["/usr/bin/rsync", "-az", f"{server_name}:{src}",
             str(tgt)],
