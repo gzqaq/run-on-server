@@ -17,6 +17,7 @@ def init_client(server_name: str) -> ssh.SSHClient:
 
   client = ssh.SSHClient()
   client.set_missing_host_key_policy(ssh.AutoAddPolicy())
+  client.load_system_host_keys()
   client.connect(
       hostname=server_info["hostname"],
       port=int(server_info["port"]),
