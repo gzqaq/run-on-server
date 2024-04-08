@@ -70,7 +70,8 @@ def main(
   client = init_client(server)
 
   if pre_comm is not None:
-    click.echo(exec_comm(client=client, comm=pre_comm, pwd=pwd))
+    output = exec_comm(client=client, comm=pre_comm, pwd=pwd)
+    click.echo(f"Pre-command output: \n{output}")
 
   output = exec_script(
       client=client,
@@ -88,5 +89,9 @@ def main(
     data_pth = extract_path(output, re_pattern)
 
     assert rsync(server_name=server, src=data_pth, tgt=target)
+
+    target = Path(target)
+    if target.is_dir():
+      target /= Path(data_pth).name
 
     click.echo(f"Data saved to {target}.")

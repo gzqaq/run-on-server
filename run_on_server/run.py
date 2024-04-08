@@ -11,7 +11,7 @@ def exec_comm(client: ssh.SSHClient, comm: str, pwd: str | None = None) -> str:
   err_msg = stderr.read().decode().strip()
 
   if len(err_msg) > 0:
-    click.echo(f"stderr output of {comm}:\n{err_msg}\n")
+    click.echo(f"stderr output of `{comm}`:\n{err_msg}\n")
 
   return outp.decode()
 
